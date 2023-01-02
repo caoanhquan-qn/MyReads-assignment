@@ -1,6 +1,7 @@
 import React from 'react';
 import BookShelf from './BookShelf';
 import optionObj from '../constants/options';
+import PropTypes from 'prop-types';
 
 const ListBooksContent = ({ bookShelf }) => {
   const bookShelfData = optionObj
@@ -33,6 +34,10 @@ const ListBooksContent = ({ bookShelf }) => {
       </div>
     </div>
   );
+};
+
+ListBooksContent.propTypes = {
+  bookShelf: PropTypes.array,
 };
 
 export default ListBooksContent;
