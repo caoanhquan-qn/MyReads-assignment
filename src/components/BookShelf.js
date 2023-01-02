@@ -6,7 +6,7 @@ const BookShelf = ({ shelf }) => {
       <h2 className="bookshelf-title">{shelf.status}</h2>
       <div className="bookshelf-books">
         <ol className="books-grid">
-          {shelf.books.map((book) => {
+          {shelf?.books?.map((book) => {
             return <Book book={book} key={book.title} status={shelf.value} />;
           })}
         </ol>

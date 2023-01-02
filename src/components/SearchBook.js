@@ -3,19 +3,33 @@ import { Link } from 'react-router-dom';
 import { search } from '../BooksAPI';
 import Book from './Book';
 
-const SearchBook = () => {
+const SearchBook = ({ bookShelf }) => {
   const [strInput, setStrInput] = useState('');
   const [list, setList] = useState([]);
   const handleChange = (e) => {
     setStrInput(e.target.value);
-    search(e.target.value, 10).then((res) => {
+  };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    search(strInput, 10).then((res) => {
       const formattedData = res?.map((book) => {
+        const foundBook = bookShelf.find((b) => b.id === book.id);
+        if (foundBook) {
+          return {
+            ...foundBook,
+            style: {
+              width: 128,
+              height: 193,
+              backgroundImage: `url(${foundBook?.imageLinks?.smallThumbnail})`,
+            },
+          };
+        }
         return {
           ...book,
           style: {
             width: 128,
             height: 193,
-            backgroundImage: `url(${book.imageLinks.smallThumbnail})`,
+            backgroundImage: `url(${book?.imageLinks?.smallThumbnail})`,
           },
         };
       });
@@ -23,7 +37,7 @@ const SearchBook = () => {
     });
   };
   return (
-    <div className="search-books">
+    <form className="search-books" onSubmit={handleSubmit}>
       <div className="search-books-bar">
         <Link className="close-search" to="/">
           Close
@@ -35,11 +49,11 @@ const SearchBook = () => {
       <div className="search-books-results">
         <ol className="books-grid">
           {list?.map((book) => {
-            return <Book key={book.id} book={book} status={book.shelf || 'none'} onSearchSelf={true} />;
+            return <Book key={book.id} book={book} status={book.shelf || 'none'} />;
           })}
         </ol>
       </div>
-    </div>
+    </form>
   );
 };
 
