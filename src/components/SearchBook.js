@@ -40,7 +40,10 @@ const SearchBook = ({ bookShelf }) => {
           });
           setList(formattedData);
         })
-        .catch((err) => console.log(err));
+        .catch((err) => {
+          console.log(err);
+          setList([]);
+        });
     }
   }, [debouncedValue]);
 
